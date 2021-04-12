@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import "./index.css";
 import App from "./App";
@@ -13,8 +13,22 @@ const rootReducer = combineReducers({
   res: resultReducer,
 });
 
+// middleware
+
+const logger = (store) => {
+  return (next) => {
+    return (action) => {
+      console.log("middleware", action);
+      const result = next(action);
+      console.log("middle next state", store.getState());
+      console.log("result state", result);
+      return result;
+    };
+  };
+};
+
 //Store
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(logger));
 
 ReactDOM.render(
   <Provider store={store}>

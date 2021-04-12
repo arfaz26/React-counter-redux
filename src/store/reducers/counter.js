@@ -7,6 +7,7 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionType.INCREMENT:
+      console.log("inc");
       return {
         ...state,
         counter: state.counter + 1,
